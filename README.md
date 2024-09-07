@@ -1,7 +1,7 @@
 Backend Boilerplate
 Overview
 
-This backend boilerplate is designed to provide a solid starting point for backend development projects using Django (or your specific stack). 
+This backend boilerplate is designed to provide a solid starting point for backend development projects using Django. 
 It includes, environment-based configuration, and a basic API structure that can be easily extended.
 Features
 Authentication
