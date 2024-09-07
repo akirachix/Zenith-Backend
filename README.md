@@ -1,7 +1,8 @@
 Backend Boilerplate
 Overview
 
-This backend boilerplate is designed to provide a solid starting point for backend development projects using Django (or your specific stack). It includes authentication with JWT, environment-based configuration, and a basic API structure that can be easily extended.
+This backend boilerplate is designed to provide a solid starting point for backend development projects using Django (or your specific stack). 
+It includes, environment-based configuration, and a basic API structure that can be easily extended.
 Features
 Authentication
 Modular Structure 
