@@ -50,6 +50,7 @@ INSTALLED_APPS = [
     'user',
     'api',
     'rest_framework',
+    'datamonitoring',
     
 ]
 
