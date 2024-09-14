@@ -12,6 +12,9 @@ from django.contrib.auth.hashers import make_password
 from user.models import User
 from .serializers import UserSerializer,RoleSerializer
 from django.contrib.auth import authenticate
+from rest_framework import viewsets
+from datamonitoring.models import MonitoringData
+from .serializers import MonitoringDataSerializer
 
 
 
@@ -101,3 +104,7 @@ class RoleBasedView(APIView):
         else:
             logger.error(f'Invalid role update data: {serializer.errors}')
             return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
+class MonitoringDataViewSet(viewsets.ModelViewSet):
+    queryset = MonitoringData.objects.all()
+    serializer_class = MonitoringDataSerializer

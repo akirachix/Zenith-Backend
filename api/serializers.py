@@ -1,6 +1,7 @@
 from rest_framework import serializers
 from user .models import User , ROLE_CHOICES
 from django.contrib.auth.models import User as DjangoUser
+from datamonitoring.models import MonitoringData
 class UserSerializer(serializers.ModelSerializer):
     password = serializers.CharField(write_only=True, required=True)
     
@@ -27,3 +28,7 @@ class UserSerializer(serializers.ModelSerializer):
 class RoleSerializer(serializers.Serializer):
     user_id = serializers.IntegerField()
     # role = serializers.ChoiceField(choices=User.ROLE_CHOICES)
+class MonitoringDataSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = MonitoringData
+        fields = ['monitoring_id', 'user_id', 'drainage_id', 'timestamp', 'water_level', 'water_pressure']
