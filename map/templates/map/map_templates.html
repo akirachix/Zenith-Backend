@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Device Map</title>
+    <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBBYsZVdFOBv3is6gNS3SbHr_xWY4pkpV8&libraries=places&callback=initMap" async defer></script>
+    <style>
+        #map {
+            height: 600px;
+            width: 110%;
+            position: relative;
+            
+        }
+        #search-bar {
+            position: absolute;
+            left: 10px;
+            z-index: 5;
+            top:10px;
+            /* background-color: white; */
+            padding: 20px;
+        }
+    </style>
+
+</head>
+<body>
+    <h1> Locations of My Devices</h1>
+    <div id="search-bar">
+        <input id="pac-input" class="controls" type="text" placeholder="Search for a location">
+    </div>
+    <div id="map"></div>
+    
+    <script>
+        let map;
+        let markers = [];
+        let devices = {{devices|safe }};
+        // let devices = {{ devices|safe }};
+        console.log("Devices loaded:", devices);
+
+        function initMap() {
+            devices.forEach(device =>{
+                const marker = new google.maps.Marker({
+                position: { lat: parseFloat(device.latitude), lng: parseFloat(device.longitude) },
+                map: map,
+                title: device.address
+            });
+            })
+            map = new google.maps.Map(document.getElementById('map'), {
+                center: { lat: -1.2921, lng: 36.8219 }, 
+                zoom: 12
+            });
+
+            const input = document.getElementById('pac-input');
+            const searchBox = new google.maps.places.SearchBox(input);
+            map.controls[google.maps.ControlPosition.TOP_LEFT].push(input);
+
+            map.addListener('bounds_changed', function() {
+                searchBox.setBounds(map.getBounds());
+            });
+
+            searchBox.addListener('places_changed', function() {
+                const places = searchBox.getPlaces();
+                if (places.length === 0) {
+                    return;
+                }
+                const bounds = new google.maps.LatLngBounds();
+                places.forEach(function(place) {
+                    if (!place.geometry) {
+                        console.log("Returned place contains no geometry");
+                        return;
+                    }
+                    if (place.geometry.viewport) {
+                        bounds.union(place.geometry.viewport);
+                    } else {
+                        bounds.extend(place.geometry.location);
+                    }
+                });
+                map.fitBounds(bounds);
+            });
+
+            if (devices && devices.length) {
+                devices.forEach(device => {
+                    const marker = new google.maps.Marker({
+                        position: { lat: parseFloat(device.latitude), lng: parseFloat(device.longitude) },
+                        map: map,
+                        title: device.address
+                    });
+                    const infoWindow = new google.maps.InfoWindow({
+                        content: `<div><h3>${device.status || 'No Status'}</h3><p>${device.address}</p></div>`
+                    });
+                    marker.addListener('click', () => {
+                        infoWindow.open(map, marker);
+                    });
+                    markers.push(marker);
+                });
+            } else {
+                console.error("No devices data available");
+            }
+        }
+    </script>
+
+
+
+    
+</body>
+</html>

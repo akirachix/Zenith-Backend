@@ -52,7 +52,9 @@ INSTALLED_APPS = [
     'rest_framework',
     'datamonitoring',
     'drainagesystem',
-    
+    'map',
+    'sensor',
+    'notification',
 ]
 
 MIDDLEWARE = [
