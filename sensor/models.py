@@ -1,6 +1,4 @@
 from django.db import models
-from django.db import models
-# from django.utils import timezone
 
 class Sensor(models.Model):
     Sensor_ID = models.AutoField(primary_key=True) 
@@ -13,4 +11,3 @@ class Sensor(models.Model):
 
 # Create your models here.
 
-# Create your models here.

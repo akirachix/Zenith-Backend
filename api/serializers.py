@@ -3,15 +3,13 @@ from user .models import User , ROLE_CHOICES
 from django.contrib.auth.models import User as DjangoUser
 from datamonitoring.models import MonitoringData
 from drainagesystem.models import DrainageSystem
-from rest_framework import serializers
 from sensor.models import Sensor
-from rest_framework import serializers
 from map.models import Device
 from notification.models import Notification
 
 class UserSerializer(serializers.ModelSerializer):
     password = serializers.CharField(write_only=True, required=True)
-    
+
     class Meta:
         model = User
         fields = ['id', 'first_name', 'last_name', 'phone_number', 'email', 'role', 'password']

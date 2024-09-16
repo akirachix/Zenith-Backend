@@ -22,11 +22,6 @@ from rest_framework import viewsets
 from notification.models import Notification
 from .serializers import NotificationSerializer
 
-
-
-
-
-
 logger = logging.getLogger(__name__)
 
 class UserListView(APIView):
@@ -49,11 +44,6 @@ class UserDetailView(APIView):
         serializer = UserSerializer(user)
         logger.info(f'User with ID {id} retrieved successfully.')
         return Response(serializer.data)
-
-
-
-
-
 class RegisterView(APIView):
     def post(self, request):
         serializer = UserSerializer(data=request.data)
