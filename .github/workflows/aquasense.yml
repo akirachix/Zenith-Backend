@@ -23,7 +23,8 @@ jobs:
           pip install -r requirements.txt
       - name: Install Black
         run: |
-          pip install black
+            black .
+          
       - name: Check code formatting with Black
         id: action_black
         run: |
