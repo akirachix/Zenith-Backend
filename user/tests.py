@@ -47,7 +47,6 @@ class UserModelTest(TestCase):
         self.assertEqual(str(self.user), "Mutesi Aline (alinemutesi@gmail.com)")
 
     def test_unique_email(self):
-        # Unhappy Path: Check if creating a User with a duplicate email raises an IntegrityError
         with self.assertRaises(IntegrityError):
             User.objects.create(
                 user=self.django_user,
@@ -60,7 +59,6 @@ class UserModelTest(TestCase):
             )
 
     def test_missing_email(self):
-        # Unhappy Path: Verify if missing email raises ValidationError
         with self.assertRaises(ValidationError):
             user = User(
                 user=self.django_user,
@@ -73,7 +71,6 @@ class UserModelTest(TestCase):
             user.full_clean()  
 
     def test_missing_role(self):
-        # Unhappy Path: Check if missing role raises ValidationError
         with self.assertRaises(ValidationError):
             user = User(
                 user=self.django_user,
@@ -86,7 +83,6 @@ class UserModelTest(TestCase):
             user.full_clean()  
 
     def test_invalid_role(self):
-        # Unhappy Path: Verify if setting an invalid role raises ValidationError
         with self.assertRaises(ValidationError):
             user = User(
                 user=self.django_user,
@@ -100,7 +96,6 @@ class UserModelTest(TestCase):
             user.full_clean()  
 
     def test_long_phone_number(self):
-        # Unhappy Path: Test if a phone number exceeding max_length raises ValidationError
         with self.assertRaises(ValidationError):
             user = User(
                 user=self.django_user,
@@ -114,7 +109,6 @@ class UserModelTest(TestCase):
             user.full_clean() 
 
     def test_long_password(self):
-        # Unhappy Path: Test if a password exceeding max_length raises ValidationError
         with self.assertRaises(ValidationError):
             user = User(
                 user=self.django_user,

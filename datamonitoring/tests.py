@@ -14,8 +14,7 @@ class MonitoringDataModelTest(TestCase):
             email='daisychekuiri@gmail.com',
             password='2003rt',
         )
-        
-        #  This involves Creating  monitoring data with valid values
+    
         self.monitoring_data = MonitoringData.objects.create(
             user_id=self.user,  
             drainage_id=1,
@@ -25,7 +24,7 @@ class MonitoringDataModelTest(TestCase):
         )
 
     def test_monitoring_data_creation(self):
-        # Happy path : which Ensures  that monitoring data is created correctly
+
         monitoring_data = MonitoringData.objects.get(monitoring_id=self.monitoring_data.monitoring_id)
         self.assertEqual(monitoring_data.user_id, self.user)
         self.assertEqual(monitoring_data.drainage_id, 1)
@@ -34,7 +33,7 @@ class MonitoringDataModelTest(TestCase):
         self.assertIsInstance(monitoring_data.timestamp, timezone.datetime)
     
     def test_string_representation(self):
-        # Happy path : Which  Ensures that  string representation is correct
+     
         self.assertEqual(str(self.monitoring_data), f'Monitoring Data {self.monitoring_data.monitoring_id}')
 
     def test_monitoring_data_creation_missing_user(self):
@@ -49,7 +48,7 @@ class MonitoringDataModelTest(TestCase):
             )
 
     def test_monitoring_data_creation_missing_drainage_id(self):
-        # Unhappy path test:  which Verify IntegrityError is raised if drainage_id is missing
+      
         with self.assertRaises(IntegrityError):
             MonitoringData.objects.create(
                 user_id=self.user,
@@ -60,7 +59,7 @@ class MonitoringDataModelTest(TestCase):
             )
 
     def test_monitoring_data_creation_invalid_water_level(self):
-        # Unhappy path test: Verify ValidationError is raised for negative water_level
+       
         
             monitoring_data = MonitoringData(
                 user_id=self.user,
@@ -84,7 +83,7 @@ class MonitoringDataModelTest(TestCase):
             monitoring_data.full_clean()  
 
     def test_monitoring_data_creation_missing_timestamp(self):
-        # Unhappy path test:which  Verify IntegrityError is raised if timestamp is missing
+     
         
             MonitoringData.objects.create(
                 user_id=self.user,

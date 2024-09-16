@@ -18,15 +18,8 @@ from pathlib import Path
 from dotenv import load_dotenv, find_dotenv
 from pathlib import Path
 
-# Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
 TEMPLATE_DIR = os.path.join(BASE_DIR, "drainage", "templates")
-
-
-# Quick-start development settings - unsuitable for production
-# See https://docs.djangoproject.com/en/5.1/howto/deployment/checklist/
-
-# SECURITY WARNING: keep the secret key used in production secret!
 SECRET_KEY = 'django-insecure-9bv3ge1%z6^itsr^q#$ssef0so*!ex&i#5*e*gg+-^ae9@tgn9'
 
 # SECURITY WARNING: don't run with debug turned on in production!

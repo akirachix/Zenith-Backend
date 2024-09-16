@@ -12,7 +12,7 @@ router = DefaultRouter()
 router.register(r'monitoring-data', MonitoringDataViewSet)
 router = DefaultRouter()
 router.register(r'notifications', NotificationViewSet)
-urlpatterns = router.urls  # Use the router's URLs
+urlpatterns = router.urls 
 
 urlpatterns = [
     path('users/', UserListView.as_view(), name='user-list'),
@@ -23,7 +23,7 @@ urlpatterns = [
     path('', include(router.urls)),
     path('drainage-systems/', DrainageSystemList.as_view(), name='drainage-system-list'),
     path('drainage-systems/<int:pk>/', DrainageSystemDetail.as_view(), name='drainage-system-detail'),
-    path('api', map_view, name='map_view'),  # This matches the `map/` URL
+    path('api', map_view, name='map_view'), 
     path('map/', map_view, name='map_view'),
     path('devices/', MapDeviceListView.as_view(), name='device-list'),
     path('search/', DeviceSearchView.as_view(), name='device-search'),
