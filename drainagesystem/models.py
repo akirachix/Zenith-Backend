@@ -1,5 +1,6 @@
 from django.db import models
 
+
 class DrainageSystem(models.Model):
     Drainage_ID = models.AutoField(primary_key=True)
     Location = models.CharField(max_length=100)
@@ -9,8 +10,7 @@ class DrainageSystem(models.Model):
     Timestamp = models.DateTimeField(auto_now_add=True)
 
     def __str__(self):
-        return f'Drainagesystem {self.Drainage_ID}'
-
+        return f"Drainagesystem {self.Drainage_ID}"
 
 
 # Create your models here.

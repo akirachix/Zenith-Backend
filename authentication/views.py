@@ -56,4 +56,3 @@ def index(request):
             "pretty": json.dumps(request.session.get("user"), indent=4),
         },
     )
-
