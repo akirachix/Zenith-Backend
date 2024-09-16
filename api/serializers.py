@@ -2,11 +2,14 @@ from rest_framework import serializers
 from user .models import User , ROLE_CHOICES
 from django.contrib.auth.models import User as DjangoUser
 from datamonitoring.models import MonitoringData
-from rest_framework import serializers
 from drainagesystem.models import DrainageSystem
+from sensor.models import Sensor
+from map.models import Device
+from notification.models import Notification
+
 class UserSerializer(serializers.ModelSerializer):
     password = serializers.CharField(write_only=True, required=True)
-    
+
     class Meta:
         model = User
         fields = ['id', 'first_name', 'last_name', 'phone_number', 'email', 'role', 'password']
@@ -41,3 +44,21 @@ class DrainageSystemSerializer(serializers.ModelSerializer):
     class Meta:
         model = DrainageSystem
         fields = '__all__'
+
+
+class DeviceSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Device
+        fields = ['id', 'latitude', 'longitude', 'address', 'type']
+
+
+class SensorSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Sensor
+        fields = ['Sensor_ID', 'Type', 'Location','Status', 'Time_Date']
+
+class NotificationSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Notification
+        fields = ['id', 'title', 'message', 'type', 'created_at']
+             
