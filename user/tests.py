@@ -4,16 +4,13 @@ from .models import User, Estate_Associate, ADMIN
 from django.db.utils import IntegrityError
 from django.core.exceptions import ValidationError
 
-class UserModelTest(TestCase):
 
+class UserModelTest(TestCase):
     def setUp(self):
-    
         self.django_user = DjangoUser.objects.create_user(
-            username="Alinemutesi",
-            password="testpassword1563"
+            username="Alinemutesi", password="testpassword1563"
         )
-        
-        
+
         self.user = User.objects.create(
             user=self.django_user,
             first_name="Mutesi",
@@ -25,7 +22,6 @@ class UserModelTest(TestCase):
         )
 
     def test_user_creation(self):
-    
         self.assertEqual(self.user.first_name, "Mutesi")
         self.assertEqual(self.user.last_name, "Aline")
         self.assertEqual(self.user.phone_number, "1234567890")
@@ -33,17 +29,14 @@ class UserModelTest(TestCase):
         self.assertEqual(self.user.role, Estate_Associate)
 
     def test_default_role(self):
-    
         self.assertEqual(self.user.role, Estate_Associate)
 
     def test_role_choices(self):
-    
         self.user.role = ADMIN
         self.user.save()
         self.assertEqual(self.user.role, ADMIN)
 
     def test_str_representation(self):
-        
         self.assertEqual(str(self.user), "Mutesi Aline (alinemutesi@gmail.com)")
 
     def test_unique_email(self):
@@ -53,7 +46,7 @@ class UserModelTest(TestCase):
                 first_name="linet",
                 last_name="mkandoe",
                 phone_number="0987654321",
-                email="alinemutesi@gmail.com",  
+                email="alinemutesi@gmail.com",
                 password="linet56678",
                 role=Estate_Associate,
             )
@@ -68,7 +61,7 @@ class UserModelTest(TestCase):
                 password="testpassword200366",
                 role=Estate_Associate,
             )
-            user.full_clean()  
+            user.full_clean()
 
     def test_missing_role(self):
         with self.assertRaises(ValidationError):
@@ -80,7 +73,7 @@ class UserModelTest(TestCase):
                 email="nyabangwech@gmail.com",
                 password="testpassword200366",
             )
-            user.full_clean()  
+            user.full_clean()
 
     def test_invalid_role(self):
         with self.assertRaises(ValidationError):
@@ -91,9 +84,9 @@ class UserModelTest(TestCase):
                 phone_number="1234567890",
                 email="nyabangwech@gmail.com",
                 password="testpassword200366",
-                role="invalid_role"  
+                role="invalid_role",
             )
-            user.full_clean()  
+            user.full_clean()
 
     def test_long_phone_number(self):
         with self.assertRaises(ValidationError):
@@ -101,12 +94,12 @@ class UserModelTest(TestCase):
                 user=self.django_user,
                 first_name="Nyabang",
                 last_name="wech",
-                phone_number="1" * 21,  
+                phone_number="1" * 21,
                 email="nyabangwech@gmail.com",
                 password="testpassword200366",
                 role=Estate_Associate,
             )
-            user.full_clean() 
+            user.full_clean()
 
     def test_long_password(self):
         with self.assertRaises(ValidationError):
@@ -116,7 +109,7 @@ class UserModelTest(TestCase):
                 last_name="Wech",
                 phone_number="1234567890",
                 email="nyabangwech@gmail.com",
-                password="p" * 201,  
+                password="p" * 201,
                 role=Estate_Associate,
             )
-            user.full_clean()  
+            user.full_clean()

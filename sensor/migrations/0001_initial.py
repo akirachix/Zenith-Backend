@@ -4,21 +4,19 @@ from django.db import migrations, models
 
 
 class Migration(migrations.Migration):
-
     initial = True
 
-    dependencies = [
-    ]
+    dependencies = []
 
     operations = [
         migrations.CreateModel(
-            name='Sensor',
+            name="Sensor",
             fields=[
-                ('Sensor_ID', models.AutoField(primary_key=True, serialize=False)),
-                ('Type', models.CharField(max_length=255)),
-                ('Location', models.CharField(default='karen', max_length=255)),
-                ('Status', models.CharField(max_length=100)),
-                ('Time_Date', models.DateField(auto_now_add=True)),
+                ("Sensor_ID", models.AutoField(primary_key=True, serialize=False)),
+                ("Type", models.CharField(max_length=255)),
+                ("Location", models.CharField(default="karen", max_length=255)),
+                ("Status", models.CharField(max_length=100)),
+                ("Time_Date", models.DateField(auto_now_add=True)),
             ],
         ),
     ]
