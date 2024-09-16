@@ -12,7 +12,7 @@ class NotificationModelTest(TestCase):
             type="info"
         )
     
-    def test_notification_creation(self):
+    def test_notificatn_creation(self):
         notification = Notification.objects.get(id=self.notification.id)
         self.assertEqual(notification.title, "Notification")  
         self.assertEqual(notification.message, "we are testing our Notification.")  
@@ -63,66 +63,4 @@ class NotificationModelTest(TestCase):
                 message=None,
                 type="warn"
             )
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-# from django.test import TestCase
-# from .models import Notification
-# from django.utils import timezone
-
-# class NotificationModelTest(TestCase):
-
-#     def setUp(self):
-       
-#         self.notification = Notification.objects.create(
-#             title="Test Notification",
-#             message="This is a message for testing.",
-#             type="info",
-#             created_at=timezone.now().date()
-#         )
-
-#     def test_notification_creation(self):
-        
-#         notification = Notification.objects.get(id=self.notification.id)
-#         self.assertEqual(notification.title, "Test Notification")
-#         self.assertEqual(notification.message, "This is a message for testing.")
-#         self.assertEqual(notification.type, "info")
-#         self.assertEqual(notification.created_at, timezone.now().date())
-    
-#     def test_notification_string_representation(self):
-        
-#         self.assertEqual(str(self.notification), "Test Notification")
-
-#     def test_notification_type_choices(self):
-        
-#         valid_types = [choice[0] for choice in Notification._meta.get_field('type').choices]
-#         self.assertIn('info', valid_types)
-#         self.assertIn('warn', valid_types)
-#         self.assertIn('error', valid_types)
-#         self.assertIn('success', valid_types)
 

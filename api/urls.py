@@ -15,6 +15,7 @@ router.register(r'notifications', NotificationViewSet)
 urlpatterns = router.urls 
 
 urlpatterns = [
+    path('',include(router.urls)),
     path('users/', UserListView.as_view(), name='user-list'),
     path('users/<int:id>/', UserDetailView.as_view(), name='user-detail'),
     path('users/register/', RegisterView.as_view(), name='user-register'),
@@ -26,10 +27,11 @@ urlpatterns = [
     path('api', map_view, name='map_view'), 
     path('map/', map_view, name='map_view'),
     path('devices/', MapDeviceListView.as_view(), name='device-list'),
-    path('search/', DeviceSearchView.as_view(), name='device-search'),
+    path('search/', DeviceSearchView.as_view(), name='device-search'),  
     path('sensors/', SensorListCreateView.as_view(), name='sensor-list-create'),  
     path('sensors/<int:pk>/', SensorDetailView.as_view(), name='sensor-detail'),  
     path('notifications/', NotificationViewSet.as_view({'get': 'list', 'post': 'create'})),
+    path('datamonitoring/', MonitoringDataViewSet.as_view({'get': 'list', 'post': 'create'})),
     path('notifications/<int:pk>/', NotificationViewSet.as_view({'get': 'retrieve', 'put': 'update', 'delete': 'destroy'})),
 
 

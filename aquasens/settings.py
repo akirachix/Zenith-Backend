@@ -157,3 +157,4 @@ AUTH0_DOMAIN = os.getenv('AUTH0_DOMAIN')
 REDIRECT_URI = 'http://localhost:8000/auth/callback/'
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
+ALLOWED_HOSTS = ['127.0.0.1', 'localhost']
