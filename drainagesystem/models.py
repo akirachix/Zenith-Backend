@@ -11,6 +11,3 @@ class DrainageSystem(models.Model):
 
     def __str__(self):
         return f"Drainagesystem {self.Drainage_ID}"
-
-
-# Create your models here.

@@ -10,6 +10,3 @@ class Sensor(models.Model):
 
     def __str__(self):
         return f"Sensor {self.Sensor_ID} - {self.Type}"
-
-
-# Create your models here.
