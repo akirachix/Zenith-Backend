@@ -27,7 +27,6 @@ class SensorModelTest(TestCase):
         )
 
     def test_default_location(self):
-        # Happy Path:  It involves Creating  a Sensor without specifying Location,  it verify default value
         default_sensor = Sensor.objects.create(Type="Water Pressure", Status="Inactive")
         self.assertEqual(default_sensor.Location, "karen")
 
