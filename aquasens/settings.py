@@ -24,7 +24,7 @@ SECRET_KEY = "django-insecure-9bv3ge1%z6^itsr^q#$ssef0so*!ex&i#5*e*gg+-^ae9@tgn9
 DEBUG = True
 
 
-ALLOWED_HOSTS = ["localhost"]
+ALLOWED_HOSTS = ["*"]
 
 
 # Application definition
@@ -55,6 +55,7 @@ MIDDLEWARE = [
     "django.contrib.auth.middleware.AuthenticationMiddleware",
     "django.contrib.messages.middleware.MessageMiddleware",
     "django.middleware.clickjacking.XFrameOptionsMiddleware",
+    "whitenoise.middleware.WhiteNoiseMiddleware",
 ]
 
 ROOT_URLCONF = "aquasens.urls"
@@ -98,12 +99,18 @@ WSGI_APPLICATION = "aquasens.wsgi.application"
 # Database
 # https://docs.djangoproject.com/en/5.1/ref/settings/#databases
 
-DATABASES = {
-    "default": {
-        "ENGINE": "django.db.backends.sqlite3",
-        "NAME": BASE_DIR / "db.sqlite3",
+import os
+import dj_database_url
+
+DATABASES = {"default": dj_database_url.config(default=os.getenv("DATABASE_URL"))}
+# Fallback for local development and test environments
+if not os.getenv("DATABASE_URL"):
+    DATABASES = {
+        "default": {
+            "ENGINE": "django.db.backends.sqlite3",
+            "NAME": BASE_DIR / "db.sqlite3",
+        }
     }
-}
 
 
 # Password validation
@@ -141,6 +148,7 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/5.1/howto/static-files/
 
 STATIC_URL = "static/"
+STATIC_ROOT = os.path.join(BASE_DIR, "staticfiles/")
 
 # Default primary key field type
 # https://docs.djangoproject.com/en/5.1/ref/settings/#default-auto-field
@@ -152,5 +160,4 @@ AUTH0_DOMAIN = os.getenv("AUTH0_DOMAIN")
 
 REDIRECT_URI = "http://localhost:8000/auth/callback/"
 DEFAULT_AUTO_FIELD = "django.db.models.BigAutoField"
-
 ALLOWED_HOSTS = ["127.0.0.1", "localhost"]
