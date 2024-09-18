@@ -22,11 +22,6 @@ SECRET_KEY = "django-insecure-9bv3ge1%z6^itsr^q#$ssef0so*!ex&i#5*e*gg+-^ae9@tgn9
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
-
-
-ALLOWED_HOSTS = ["localhost"]
-
-
 # Application definition
 
 INSTALLED_APPS = [
@@ -45,6 +40,7 @@ INSTALLED_APPS = [
     "map",
     "sensor",
     "notification",
+    "corsheaders",
 ]
 
 MIDDLEWARE = [
@@ -52,9 +48,11 @@ MIDDLEWARE = [
     "django.contrib.sessions.middleware.SessionMiddleware",
     "django.middleware.common.CommonMiddleware",
     "django.middleware.csrf.CsrfViewMiddleware",
+    "corsheaders.middleware.CorsMiddleware",
     "django.contrib.auth.middleware.AuthenticationMiddleware",
     "django.contrib.messages.middleware.MessageMiddleware",
     "django.middleware.clickjacking.XFrameOptionsMiddleware",
+    "whitenoise.middleware.WhiteNoiseMiddleware",
 ]
 
 ROOT_URLCONF = "aquasens.urls"
@@ -98,12 +96,18 @@ WSGI_APPLICATION = "aquasens.wsgi.application"
 # Database
 # https://docs.djangoproject.com/en/5.1/ref/settings/#databases
 
-DATABASES = {
-    "default": {
-        "ENGINE": "django.db.backends.sqlite3",
-        "NAME": BASE_DIR / "db.sqlite3",
+import os
+import dj_database_url
+
+DATABASES = {"default": dj_database_url.config(default=os.getenv("DATABASE_URL"))}
+# Fallback for local development and test environments
+if not os.getenv("DATABASE_URL"):
+    DATABASES = {
+        "default": {
+            "ENGINE": "django.db.backends.sqlite3",
+            "NAME": BASE_DIR / "db.sqlite3",
+        }
     }
-}
 
 
 # Password validation
@@ -141,16 +145,17 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/5.1/howto/static-files/
 
 STATIC_URL = "static/"
+STATIC_ROOT = os.path.join(BASE_DIR, "staticfiles/")
+STATICFILES_STORAGE = "whitenoise.storage.CompressedManifestStaticFilesStorage"
 
 # Default primary key field type
 # https://docs.djangoproject.com/en/5.1/ref/settings/#default-auto-field
 
-AUTH0_CLIENT_ID = os.getenv("AUTH0_CLIENT_ID")
-AUTH0_CLIENT_SECRET = os.getenv("AUTH0_CLIENT_SECRET")
-AUTH0_DOMAIN = os.getenv("AUTH0_DOMAIN")
+AUTH0_CLIENT_ID = os.getenv("AUTH0_CLIENT_ID", "")
+AUTH0_CLIENT_SECRET = os.getenv("AUTH0_CLIENT_SECRET", "")
+AUTH0_DOMAIN = os.getenv("AUTH0_DOMAIN", "")
 
 
-REDIRECT_URI = "http://localhost:8000/auth/callback/"
+REDIRECT_URI = os.environ.get("REDIRECT_URI", "")
 DEFAULT_AUTO_FIELD = "django.db.models.BigAutoField"
-
-ALLOWED_HOSTS = ["127.0.0.1", "localhost"]
+ALLOWED_HOSTS = ["*"]
