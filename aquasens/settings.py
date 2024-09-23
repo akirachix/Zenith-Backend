@@ -1,3 +1,5 @@
+import dj_database_url
+
 """
 Django settings for newproject project.
 
@@ -14,7 +16,7 @@ from datetime import timedelta
 import os
 from pathlib import Path
 from dotenv import load_dotenv, find_dotenv
-from pathlib import Path
+
 
 BASE_DIR = Path(__file__).resolve().parent.parent
 TEMPLATE_DIR = os.path.join(BASE_DIR, "drainage", "templates")
@@ -41,6 +43,7 @@ INSTALLED_APPS = [
     "sensor",
     "notification",
     "corsheaders",
+    "django_extensions",
 ]
 
 MIDDLEWARE = [
@@ -99,15 +102,9 @@ WSGI_APPLICATION = "aquasens.wsgi.application"
 # Database
 # https://docs.djangoproject.com/en/5.1/ref/settings/#databases
 
-import os
-import dj_database_url
-from pathlib import Path
-
-BASE_DIR = Path(__file__).resolve().parent.parent  # Adjust this if necessary
 
 DATABASE_URL = os.getenv("DATABASE_URL")
 
-# Configure the DATABASES setting
 if DATABASE_URL:
     DATABASES = {"default": dj_database_url.config(default=DATABASE_URL)}
 else:
