@@ -14,7 +14,6 @@ router.register(r"monitoring-data", MonitoringDataViewSet)
 router = DefaultRouter()
 router.register(r"notifications", NotificationViewSet)
 urlpatterns = router.urls
-
 urlpatterns = [
     path("", include(router.urls)),
     path("users/", UserListView.as_view(), name="user-list"),

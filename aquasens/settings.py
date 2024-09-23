@@ -1,3 +1,5 @@
+import dj_database_url
+
 """
 Django settings for newproject project.
 
@@ -14,7 +16,7 @@ from datetime import timedelta
 import os
 from pathlib import Path
 from dotenv import load_dotenv, find_dotenv
-from pathlib import Path
+
 
 BASE_DIR = Path(__file__).resolve().parent.parent
 TEMPLATE_DIR = os.path.join(BASE_DIR, "drainage", "templates")
@@ -41,19 +43,23 @@ INSTALLED_APPS = [
     "sensor",
     "notification",
     "corsheaders",
+    "django_extensions",
 ]
 
 MIDDLEWARE = [
     "django.middleware.security.SecurityMiddleware",
     "django.contrib.sessions.middleware.SessionMiddleware",
+    "corsheaders.middleware.CorsMiddleware",
     "django.middleware.common.CommonMiddleware",
     "django.middleware.csrf.CsrfViewMiddleware",
-    "corsheaders.middleware.CorsMiddleware",
     "django.contrib.auth.middleware.AuthenticationMiddleware",
     "django.contrib.messages.middleware.MessageMiddleware",
     "django.middleware.clickjacking.XFrameOptionsMiddleware",
     "whitenoise.middleware.WhiteNoiseMiddleware",
 ]
+
+CORS_ORIGIN_ALLOW_ALL = True
+
 
 ROOT_URLCONF = "aquasens.urls"
 
@@ -96,11 +102,12 @@ WSGI_APPLICATION = "aquasens.wsgi.application"
 # Database
 # https://docs.djangoproject.com/en/5.1/ref/settings/#databases
 
-import os
-import dj_database_url
 
-DATABASES = {"default": dj_database_url.config(default=os.getenv("DATABASE_URL"))}
-if not os.getenv("DATABASE_URL"):
+DATABASE_URL = os.getenv("DATABASE_URL")
+
+if DATABASE_URL:
+    DATABASES = {"default": dj_database_url.config(default=DATABASE_URL)}
+else:
     DATABASES = {
         "default": {
             "ENGINE": "django.db.backends.sqlite3",
