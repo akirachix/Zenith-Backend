@@ -41,19 +41,22 @@ INSTALLED_APPS = [
     "sensor",
     "notification",
     "corsheaders",
+    "django_extensions",
 ]
 
 MIDDLEWARE = [
     "django.middleware.security.SecurityMiddleware",
     "django.contrib.sessions.middleware.SessionMiddleware",
+    "corsheaders.middleware.CorsMiddleware",
     "django.middleware.common.CommonMiddleware",
     "django.middleware.csrf.CsrfViewMiddleware",
-    "corsheaders.middleware.CorsMiddleware",
     "django.contrib.auth.middleware.AuthenticationMiddleware",
     "django.contrib.messages.middleware.MessageMiddleware",
     "django.middleware.clickjacking.XFrameOptionsMiddleware",
     "whitenoise.middleware.WhiteNoiseMiddleware",
 ]
+
+CORS_ALLOW_ALL_ORIGINS = True
 
 ROOT_URLCONF = "aquasens.urls"
 
@@ -97,16 +100,14 @@ WSGI_APPLICATION = "aquasens.wsgi.application"
 # https://docs.djangoproject.com/en/5.1/ref/settings/#databases
 
 import os
-import dj_database_url
 
-DATABASES = {"default": dj_database_url.config(default=os.getenv("DATABASE_URL"))}
-if not os.getenv("DATABASE_URL"):
-    DATABASES = {
-        "default": {
-            "ENGINE": "django.db.backends.sqlite3",
-            "NAME": BASE_DIR / "db.sqlite3",
-        }
+
+DATABASES = {
+    "default": {
+        "ENGINE": "django.db.backends.sqlite3",
+        "NAME": os.path.join(BASE_DIR, "db.sqlite3"),
     }
+}
 
 
 # Password validation
