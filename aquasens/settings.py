@@ -102,15 +102,23 @@ WSGI_APPLICATION = "aquasens.wsgi.application"
 
 import os
 import dj_database_url
+from pathlib import Path
 
-DATABASES = {"default": dj_database_url.config(default=os.getenv("DATABASE_URL"))}
-if not os.getenv("DATABASE_URL"):
-    DATABASES = {
-        "default": {
+BASE_DIR = Path(__file__).resolve().parent.parent  # Adjust this if necessary
+
+DATABASE_URL = os.getenv("DATABASE_URL")
+
+DATABASES = {
+    "default": (
+        dj_database_url.config(default=DATABASE_URL)
+        if DATABASE_URL
+        else {
             "ENGINE": "django.db.backends.sqlite3",
-            "NAME": BASE_DIR / "db.sqlite3",
+            "NAME": os.path.join(BASE_DIR, "db.sqlite3"),
         }
-    }
+    )
+}
+
 
 # Password validation
 # https://docs.djangoproject.com/en/5.1/ref/settings/#auth-password-validators
