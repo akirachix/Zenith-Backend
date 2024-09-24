@@ -10,7 +10,7 @@ from rest_framework.views import APIView
 class DrainageSystemList(generics.ListCreateAPIView):
     queryset = DrainageSystem.objects.all()
     serializer_class = DrainageSystemSerializer
-    def get (self, request):
+    def get (self, request,*args,**kwargs):
         serializer = DrainageSystemSerializer(data=request.data)
         if serializer.is_valid():
             serializer.save()
@@ -25,5 +25,7 @@ class DrainageSystemDetail(APIView):
             serializer.save()
             return Response(serializer.data, status=status.HTTP_201_CREATED)
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
-
-# Create your views here.
+    
+    
+    
+   
