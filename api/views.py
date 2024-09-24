@@ -53,7 +53,6 @@ class RegisterView(APIView):
     def post(self, request):
         serializer = UserSerializer(data=request.data)
         if serializer.is_valid():
-            # hashing password
             serializer.validated_data["password"] = make_password(
                 serializer.validated_data["password"]
             )
