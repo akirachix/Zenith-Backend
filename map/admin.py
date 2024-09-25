@@ -1,11 +1,9 @@
 from django.contrib import admin
+from .models import Device
 
-# Register your models here.
+admin.site.register(Device)
+
 from django.contrib import admin
+from map.models import Device
 
 # Register your models here.
-
-
-from .models import User
-
-admin.site.register(User)

@@ -6,7 +6,6 @@ from django.db import migrations, models
 
 
 class Migration(migrations.Migration):
-
     initial = True
 
     dependencies = [
@@ -15,14 +14,23 @@ class Migration(migrations.Migration):
 
     operations = [
         migrations.CreateModel(
-            name='MonitoringData',
+            name="MonitoringData",
             fields=[
-                ('monitoring_id', models.AutoField(primary_key=True, serialize=False)),
-                ('drainage_id', models.IntegerField()),
-                ('timestamp', models.DateTimeField(auto_now_add=True)),
-                ('water_level', models.DecimalField(decimal_places=2, max_digits=10)),
-                ('water_pressure', models.DecimalField(decimal_places=2, max_digits=10)),
-                ('user_id', models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, to=settings.AUTH_USER_MODEL)),
+                ("monitoring_id", models.AutoField(primary_key=True, serialize=False)),
+                ("drainage_id", models.IntegerField()),
+                ("timestamp", models.DateTimeField(auto_now_add=True)),
+                ("water_level", models.DecimalField(decimal_places=2, max_digits=10)),
+                (
+                    "water_pressure",
+                    models.DecimalField(decimal_places=2, max_digits=10),
+                ),
+                (
+                    "user_id",
+                    models.ForeignKey(
+                        on_delete=django.db.models.deletion.CASCADE,
+                        to=settings.AUTH_USER_MODEL,
+                    ),
+                ),
             ],
         ),
     ]

@@ -1,6 +1,4 @@
 from django.shortcuts import render
-
-
 import json
 from authlib.integrations.django_client import OAuth
 from django.conf import settings
@@ -58,4 +56,3 @@ def index(request):
             "pretty": json.dumps(request.session.get("user"), indent=4),
         },
     )
-
