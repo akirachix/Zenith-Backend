@@ -1,6 +1,7 @@
 from rest_framework import serializers
 from user .models import User , ROLE_CHOICES
 from django.contrib.auth.models import User as DjangoUser
+
 class UserSerializer(serializers.ModelSerializer):
     password = serializers.CharField(write_only=True, required=True)
     
@@ -26,4 +27,4 @@ class UserSerializer(serializers.ModelSerializer):
         return user
 class RoleSerializer(serializers.Serializer):
     user_id = serializers.IntegerField()
-    # role = serializers.ChoiceField(choices=User.ROLE_CHOICES)
+    #role = serializers.ChoiceField(choices=User.ROLE_CHOICES)

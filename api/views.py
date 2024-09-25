@@ -18,16 +18,12 @@ from django.contrib.auth import authenticate
 logger = logging.getLogger(__name__)
 
 class UserListView(APIView):
-    permission_classes = [IsAuthenticated]
-
     def get(self, request):
         users = User.objects.all()
         serializer = UserSerializer(users, many=True)
         return Response(serializer.data, status=status.HTTP_200_OK)
 
 class UserDetailView(APIView):
-    permission_classes = [IsAuthenticated]
-
     def get(self, request, id):
         try:
             user = User.objects.get(id=id)
@@ -37,9 +33,6 @@ class UserDetailView(APIView):
         serializer = UserSerializer(user)
         logger.info(f'User with ID {id} retrieved successfully.')
         return Response(serializer.data)
-
-
-
 
 
 class RegisterView(APIView):

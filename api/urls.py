@@ -7,4 +7,4 @@ urlpatterns = [
     path('users/register/', RegisterView.as_view(), name='user-register'),
     path('users/login/', LoginView.as_view(), name='user-login'),
     path('users/role-based/', RoleBasedView.as_view(), name='role-based'),
-]
+]            
