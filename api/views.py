@@ -12,6 +12,16 @@ from django.contrib.auth import authenticate
 from rest_framework import viewsets
 from datamonitoring.models import MonitoringData
 from .serializers import MonitoringDataSerializer
+
+from django.shortcuts import render
+from django.shortcuts import render
+from rest_framework import generics,status
+from rest_framework.response import Response
+from drainagesystem.models import DrainageSystem
+from .serializers import DrainageSystemSerializer
+from rest_framework.views import APIView
+
+
 from rest_framework import generics, status
 from rest_framework.response import Response
 from drainagesystem.models import DrainageSystem
@@ -23,10 +33,12 @@ from rest_framework import viewsets
 from notification.models import Notification
 from .serializers import NotificationSerializer
 
+
 logger = logging.getLogger(__name__)
 
 
 class UserListView(APIView):
+
     def get(self, request):
         users = User.objects.all()
         serializer = UserSerializer(users, many=True)
@@ -45,7 +57,6 @@ class UserDetailView(APIView):
         logger.info(f"User with ID {id} retrieved successfully.")
         return Response(serializer.data)
 
-
 class RegisterView(APIView):
     def post(self, request):
         serializer = UserSerializer(data=request.data)
@@ -56,6 +67,7 @@ class RegisterView(APIView):
             serializer.validated_data["password"] = make_password(
                 serializer.validated_data["password"]
             )
+
             user = serializer.save()
             logger.info(f"User registered successfully: {user.email}")
             return Response(UserSerializer(user).data, status=status.HTTP_201_CREATED)
@@ -126,6 +138,13 @@ class MonitoringDataViewSet(viewsets.ModelViewSet):
     queryset = MonitoringData.objects.all()
     serializer_class = MonitoringDataSerializer
 
+    
+class DrainageSystemList(APIView):
+    def get(self, request):
+        drainagesystems = DrainageSystem.objects.all()  
+        serializer = DrainageSystemSerializer(drainagesystems, many=True)  
+        return Response(serializer.data)
+
 
 class DrainageSystemList(generics.ListCreateAPIView):
     queryset = DrainageSystem.objects.all()
@@ -139,6 +158,7 @@ class DrainageSystemList(generics.ListCreateAPIView):
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
 
+
 class DrainageSystemDetail(APIView):
     def post(self, request, *args, **kwargs):
         serializer = DrainageSystemSerializer(data=request.data)
@@ -146,6 +166,11 @@ class DrainageSystemDetail(APIView):
             serializer.save()
             return Response(serializer.data, status=status.HTTP_201_CREATED)
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
+    
+    
+   
+
 
 
 class SensorListCreateView(generics.ListCreateAPIView):
@@ -189,3 +214,4 @@ class SensorDetailView(generics.RetrieveUpdateDestroyAPIView):
 class NotificationViewSet(viewsets.ModelViewSet):
     queryset = Notification.objects.all()
     serializer_class = NotificationSerializer
+
