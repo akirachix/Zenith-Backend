@@ -43,6 +43,11 @@ class UserSerializer(serializers.ModelSerializer):
 
 class RoleSerializer(serializers.Serializer):
     user_id = serializers.IntegerField()
+class MonitoringDataSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = MonitoringData
+        fields = ['monitoring_id', 'user_id', 'drainage_id', 'timestamp', 'water_level', 'water_pressure']
+
     # role = serializers.ChoiceField(choices=User.ROLE_CHOICES)
 
 
