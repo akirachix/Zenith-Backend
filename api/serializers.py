@@ -1,6 +1,6 @@
 from rest_framework import serializers
 from user.models import User, ROLE_CHOICES
-from django.contrib.auth.models import User a
+from django.contrib.auth.models import User 
 from datamonitoring.models import MonitoringData
 from drainagesystem.models import DrainageSystem
 from sensor.models import Sensor
