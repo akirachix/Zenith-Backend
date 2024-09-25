@@ -1,13 +1,9 @@
 from django.shortcuts import render
-
-# Create your views here.
-
 import logging
 from rest_framework import status
 from rest_framework.response import Response
 from rest_framework.views import APIView
 from rest_framework.permissions import IsAuthenticated, IsAdminUser
-
 from django.contrib.auth.hashers import make_password
 from user.models import User
 from .serializers import UserSerializer,RoleSerializer
@@ -15,9 +11,6 @@ from django.contrib.auth import authenticate
 from rest_framework import viewsets
 from datamonitoring.models import MonitoringData
 from .serializers import MonitoringDataSerializer
-
-
-
 from django.shortcuts import render
 from django.shortcuts import render
 from rest_framework import generics,status
@@ -27,21 +20,16 @@ from .serializers import DrainageSystemSerializer
 from rest_framework.views import APIView
 
 
-
-
 logger = logging.getLogger(__name__)
 
 class UserListView(APIView):
-    permission_classes = [IsAuthenticated]
-
+    
     def get(self, request):
         users = User.objects.all()
         serializer = UserSerializer(users, many=True)
         return Response(serializer.data, status=status.HTTP_200_OK)
 
 class UserDetailView(APIView):
-    permission_classes = [IsAuthenticated]
-
     def get(self, request, id):
         try:
             user = User.objects.get(id=id)
@@ -52,15 +40,10 @@ class UserDetailView(APIView):
         logger.info(f'User with ID {id} retrieved successfully.')
         return Response(serializer.data)
 
-
-
-
-
 class RegisterView(APIView):
     def post(self, request):
         serializer = UserSerializer(data=request.data)
         if serializer.is_valid():
-            # hashing password
             serializer.validated_data['password'] = make_password(serializer.validated_data['password'])
             user = serializer.save()
             logger.info(f'User registered successfully: {user.email}')
@@ -120,25 +103,19 @@ class MonitoringDataViewSet(viewsets.ModelViewSet):
     queryset = MonitoringData.objects.all()
     serializer_class = MonitoringDataSerializer
     
-class DrainageSystemList(generics.ListCreateAPIView):
-    queryset = DrainageSystem.objects.all()
-    serializer_class = DrainageSystemSerializer
-    def get (self, request,*args,**kwargs):
-        serializer = DrainageSystemSerializer(data=request.data)
-        if serializer.is_valid():
-            serializer.save()
-            return Response(serializer.data, status=status.HTTP_201_CREATED)
-        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
-    
-    
+class DrainageSystemList(APIView):
+    def get(self, request):
+        drainagesystems = DrainageSystem.objects.all()  
+        serializer = DrainageSystemSerializer(drainagesystems, many=True)  
+        return Response(serializer.data)
+
 class DrainageSystemDetail(APIView):
-      def post(self, request, *args, **kwargs):
+    def post(self, request, *args, **kwargs):
         serializer = DrainageSystemSerializer(data=request.data)
         if serializer.is_valid():
             serializer.save()
             return Response(serializer.data, status=status.HTTP_201_CREATED)
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
-    
     
     
    

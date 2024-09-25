@@ -6,6 +6,7 @@ class DrainageSystem(models.Model):
     waterpressure=models.DecimalField(max_digits=10, decimal_places=2)
     Status = models.CharField(max_length=100)
     Timestamp=models.DateTimeField(auto_now_add=True)
+     
 
 
-# Create your models here.
+
