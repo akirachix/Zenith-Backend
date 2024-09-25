@@ -15,6 +15,13 @@ router = DefaultRouter()
 router.register(r"notifications", NotificationViewSet)
 urlpatterns = router.urls
 urlpatterns = [
+
+    path('users/', UserListView.as_view(), name='user-list'),
+    path('users/<int:id>/', UserDetailView.as_view(), name='user-detail'),
+    path('users/register/', RegisterView.as_view(), name='user-register'),
+    path('users/login/', LoginView.as_view(), name='user-login'),
+    path('users/role-based/', RoleBasedView.as_view(), name='role-based'),
+]            
     path("", include(router.urls)),
     path("users/", UserListView.as_view(), name="user-list"),
     path("users/<int:id>/", UserDetailView.as_view(), name="user-detail"),
@@ -50,3 +57,4 @@ urlpatterns = [
         ),
     ),
 ]
+

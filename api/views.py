@@ -8,6 +8,7 @@ from django.contrib.auth.hashers import make_password
 from user.models import User
 from .serializers import UserSerializer, RoleSerializer
 from django.contrib.auth import authenticate
+
 from rest_framework import viewsets
 from datamonitoring.models import MonitoringData
 from .serializers import MonitoringDataSerializer
@@ -37,7 +38,7 @@ logger = logging.getLogger(__name__)
 
 
 class UserListView(APIView):
-    
+
     def get(self, request):
         users = User.objects.all()
         serializer = UserSerializer(users, many=True)

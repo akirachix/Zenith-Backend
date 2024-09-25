@@ -1,11 +1,12 @@
 from rest_framework import serializers
 from user.models import User, ROLE_CHOICES
-from django.contrib.auth.models import User as DjangoUser
+from django.contrib.auth.models import User a
 from datamonitoring.models import MonitoringData
 from drainagesystem.models import DrainageSystem
 from sensor.models import Sensor
 from map.models import Device
 from notification.models import Notification
+
 
 
 class UserSerializer(serializers.ModelSerializer):
@@ -43,6 +44,10 @@ class UserSerializer(serializers.ModelSerializer):
 
 class RoleSerializer(serializers.Serializer):
     user_id = serializers.IntegerField()
+
+
+    #role = serializers.ChoiceField(choices=User.ROLE_CHOICES)
+
 class MonitoringDataSerializer(serializers.ModelSerializer):
     class Meta:
         model = MonitoringData
@@ -86,3 +91,4 @@ class NotificationSerializer(serializers.ModelSerializer):
     class Meta:
         model = Notification
         fields = ["id", "title", "message", "type", "created_at"]
+

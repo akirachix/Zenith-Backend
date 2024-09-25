@@ -102,8 +102,7 @@ TEMPLATES = [
 ]
 
 ENV_FILE = find_dotenv()
-if ENV_FILE:
-    load_dotenv(ENV_FILE)
+if ENV_FILE:    load_dotenv(ENV_FILE)
 
 WSGI_APPLICATION = "aquasens.wsgi.application"
 
