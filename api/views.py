@@ -13,8 +13,6 @@ from user.models import User
 from .serializers import UserSerializer,RoleSerializer
 from django.contrib.auth import authenticate
 
-
-
 logger = logging.getLogger(__name__)
 
 class UserListView(APIView):
@@ -39,7 +37,6 @@ class RegisterView(APIView):
     def post(self, request):
         serializer = UserSerializer(data=request.data)
         if serializer.is_valid():
-            # hashing password
             serializer.validated_data['password'] = make_password(serializer.validated_data['password'])
             user = serializer.save()
             logger.info(f'User registered successfully: {user.email}')
