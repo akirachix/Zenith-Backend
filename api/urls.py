@@ -4,11 +4,11 @@ from django.urls import path, include
 from rest_framework.routers import DefaultRouter
 from .views import MonitoringDataViewSet
 from  .views import DrainageSystemListCreateView 
-
 from map.views import map_view
 from map.views import MapDeviceListView, DeviceSearchView, map_view
 from .views import SensorListCreateView, SensorDetailView
 from .views import NotificationViewSet
+
 
 router = DefaultRouter()
 router.register(r"monitoring-data", MonitoringDataViewSet)
@@ -41,6 +41,6 @@ path("sensors/<int:pk>/", SensorDetailView.as_view(), name="sensor-detail"),
 path("notifications/", NotificationViewSet.as_view({"get": "list", "post": "create"})), 
 path("datamonitoring/", MonitoringDataViewSet.as_view({"get": "list", "post": "create"})),   
 path("notifications/<int:pk>/", NotificationViewSet.as_view({"get": "retrieve", "put": "update", "delete": "destroy"}),)
-path('drainage-systems/', DrainageSystemListCreateView.as_view(), name='drainagesystem-list-create'),
+path('api/drainage-systems/', DrainageSystemListCreateView.as_view(), name='drainage-system-list-create'),
         
     
