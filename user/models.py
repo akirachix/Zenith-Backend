@@ -1,18 +1,15 @@
 
-    
-
-    
-
-from django.db import models
-# Create your models here.
 from django.db import models
 from django.contrib.auth.models import User as DjangoUser
 Estate_Associate = 'Estate_Associate'
 ADMIN = 'ADMIN'
+
 ROLE_CHOICES = [
-    (Estate_Associate, 'Estate_Associate'),
-    (ADMIN, 'ADMIN'),
+    (Estate_Associate, "Estate_Associate"),
+    (ADMIN, "ADMIN"),
 ]
+
+
 class User(models.Model):
     user = models.OneToOneField(DjangoUser, on_delete=models.CASCADE)
     first_name = models.CharField(max_length=30)
