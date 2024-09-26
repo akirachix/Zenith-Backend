@@ -55,6 +55,7 @@ INSTALLED_APPS = [
     "notification",
     "corsheaders",
     "django_extensions",
+    
 ]
 
 MIDDLEWARE = [
