@@ -1,6 +1,6 @@
 from django.shortcuts import render
 import logging
-from rest_framework import status
+from rest_framework import status,generics
 from rest_framework.response import Response
 from rest_framework.views import APIView
 from rest_framework.permissions import IsAuthenticated, IsAdminUser
@@ -8,28 +8,14 @@ from django.contrib.auth.hashers import make_password
 from user.models import User
 from .serializers import UserSerializer, RoleSerializer
 from django.contrib.auth import authenticate
-
 from rest_framework import viewsets
 from datamonitoring.models import MonitoringData
 from .serializers import MonitoringDataSerializer
-
-from django.shortcuts import render
-from django.shortcuts import render
-from rest_framework import generics,status
-from rest_framework.response import Response
-from drainagesystem.models import DrainageSystem
-from .serializers import DrainageSystemSerializer
-from rest_framework.views import APIView
-
-
-from rest_framework import generics, status
-from rest_framework.response import Response
 from drainagesystem.models import DrainageSystem
 from .serializers import DrainageSystemSerializer
 from .serializers import DeviceSerializer
 from sensor.models import Sensor
 from .serializers import SensorSerializer
-from rest_framework import viewsets
 from notification.models import Notification
 from .serializers import NotificationSerializer
 
@@ -61,9 +47,7 @@ class RegisterView(APIView):
     def post(self, request):
         serializer = UserSerializer(data=request.data)
         if serializer.is_valid():
-
             serializer.validated_data['password'] = make_password(serializer.validated_data['password'])
-            # hashing password
             serializer.validated_data["password"] = make_password(
                 serializer.validated_data["password"]
             )
@@ -166,11 +150,6 @@ class DrainageSystemDetail(APIView):
             serializer.save()
             return Response(serializer.data, status=status.HTTP_201_CREATED)
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
-
-    
-    
-   
-
 
 
 class SensorListCreateView(generics.ListCreateAPIView):
