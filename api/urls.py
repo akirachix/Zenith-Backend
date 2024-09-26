@@ -28,3 +28,4 @@ urlpatterns = [
     path("notifications/<int:pk>/", NotificationViewSet.as_view({"get": "retrieve", "put": "update", "delete": "destroy"})),
     path('api/drainage-systems/', DrainageSystemListCreateView.as_view(), name='drainage-system-list-create'),
 ]
+
