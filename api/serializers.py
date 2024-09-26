@@ -39,8 +39,13 @@ class UserSerializer(serializers.ModelSerializer):
 
 class RoleSerializer(serializers.Serializer):
     user_id = serializers.IntegerField()
+
     
 
+class MonitoringDataSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = MonitoringData
+        fields = ['monitoring_id', 'user_id', 'drainage_id', 'timestamp', 'water_level', 'water_pressure']
 
 class MonitoringDataSerializer(serializers.ModelSerializer):
     class Meta:
@@ -70,7 +75,6 @@ class SensorSerializer(serializers.ModelSerializer):
     class Meta:
         model = Sensor
         fields = ["Sensor_ID", "Type", "Location", "Status", "Time_Date"]
-
 
 class NotificationSerializer(serializers.ModelSerializer):
     class Meta:

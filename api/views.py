@@ -1,7 +1,7 @@
 
 from django.shortcuts import render
 import logging
-from rest_framework import status
+from rest_framework import status,generics
 from rest_framework.response import Response
 from rest_framework.views import APIView
 from rest_framework.permissions import IsAuthenticated, IsAdminUser
@@ -19,7 +19,6 @@ from .serializers import DrainageSystemSerializer
 from .serializers import DeviceSerializer
 from sensor.models import Sensor
 from .serializers import SensorSerializer
-from rest_framework import viewsets
 from notification.models import Notification
 from .serializers import NotificationSerializer
 from rest_framework import generics
@@ -66,6 +65,7 @@ class RegisterView(APIView):
     def post(self, request):
         serializer = UserSerializer(data=request.data)
         if serializer.is_valid():
+<
 
             try:
                 user = serializer.save()
@@ -75,6 +75,15 @@ class RegisterView(APIView):
                 logger.error(f'User registration failed: {str(e)}')
                 return Response({'error': str(e)}, status=status.HTTP_400_BAD_REQUEST)
         logger.error(f'User registration failed: {serializer.errors}')
+            serializer.validated_data['password'] = make_password(serializer.validated_data['password'])
+            serializer.validated_data["password"] = make_password(
+                serializer.validated_data["password"]
+            )
+
+            user = serializer.save()
+            logger.info(f"User registered successfully: {user.email}")
+            return Response(UserSerializer(user).data, status=status.HTTP_201_CREATED)
+        logger.error(f"User registration failed: {serializer.errors}")
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
 
@@ -176,6 +185,7 @@ class DrainageSystemListCreateView(generics.ListCreateAPIView):
             serializer.save()
             return Response(serializer.data, status=status.HTTP_201_CREATED)
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
 
 class SensorListCreateView(generics.ListCreateAPIView):
     queryset = Sensor.objects.all()
