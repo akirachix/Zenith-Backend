@@ -15,23 +15,20 @@ router.register(r"monitoring-data", MonitoringDataViewSet)
 router = DefaultRouter()
 router.register(r"notifications", NotificationViewSet)
 urlpatterns = router.urls
-urlpatterns = [
 
-    path('users/', UserListView.as_view(), name='user-list'),
-    path('users/<int:id>/', UserDetailView.as_view(), name='user-detail'),
-    path('users/register/', RegisterView.as_view(), name='user-register'),
-    path('users/login/', LoginView.as_view(), name='user-login'),
-    path('users/role-based/', RoleBasedView.as_view(), name='role-based'),
-]            
+urlpatterns = [
+path('users/', UserListView.as_view(), name='user-list'),
+path('users/<int:id>/', UserDetailView.as_view(), name='user-detail'),
+path('users/register/', RegisterView.as_view(), name='user-register'),
+path('users/login/', LoginView.as_view(), name='user-login'),
+path('users/role-based/', RoleBasedView.as_view(), name='role-based'),       
 path("", include(router.urls)),
 path("users/", UserListView.as_view(), name="user-list"),
 path("users/<int:id>/", UserDetailView.as_view(), name="user-detail"),
 path("users/register/", RegisterView.as_view(), name="user-register"),
 path("users/login/", LoginView.as_view(), name="user-login"),
 path("users/role-based/", RoleBasedView.as_view(), name="role-based"),
-path("", include(router.urls)),
-
-    
+path("", include(router.urls)), 
 path("api", map_view, name="map_view"),
 path("map/", map_view, name="map_view"),
 path("devices/", MapDeviceListView.as_view(), name="device-list"),
@@ -40,7 +37,7 @@ path("sensors/", SensorListCreateView.as_view(), name="sensor-list-create"),
 path("sensors/<int:pk>/", SensorDetailView.as_view(), name="sensor-detail"),
 path("notifications/", NotificationViewSet.as_view({"get": "list", "post": "create"})), 
 path("datamonitoring/", MonitoringDataViewSet.as_view({"get": "list", "post": "create"})),   
-path("notifications/<int:pk>/", NotificationViewSet.as_view({"get": "retrieve", "put": "update", "delete": "destroy"}),)
+path("notifications/<int:pk>/", NotificationViewSet.as_view({"get": "retrieve", "put": "update", "delete": "destroy"}),),
 path('api/drainage-systems/', DrainageSystemListCreateView.as_view(), name='drainage-system-list-create'),
         
-    
+] 
