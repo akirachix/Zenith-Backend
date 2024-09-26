@@ -65,8 +65,12 @@ urlpatterns = [
     path("datamonitoring/", MonitoringDataViewSet.as_view({"get": "list", "post": "create"})),
     path("notifications/<int:pk>/", NotificationViewSet.as_view({"get": "retrieve", "put": "update", "delete": "destroy"})),
     path('api/drainage-systems/', DrainageSystemListCreateView.as_view(), name='drainage-system-list-create'),
+    feature/authentication
+]
+
 ]
 
         
     
     
+ dev
