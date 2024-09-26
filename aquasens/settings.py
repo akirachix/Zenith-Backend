@@ -24,6 +24,15 @@ SECRET_KEY = "django-insecure-9bv3ge1%z6^itsr^q#$ssef0so*!ex&i#5*e*gg+-^ae9@tgn9
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
+
+
+
+ALLOWED_HOSTS = [ '*']
+
+
+
+
+
 # Application definition
 
 INSTALLED_APPS = [
@@ -44,6 +53,7 @@ INSTALLED_APPS = [
     "notification",
     "corsheaders",
     "django_extensions",
+    
 ]
 
 MIDDLEWARE = [
@@ -93,8 +103,7 @@ TEMPLATES = [
 ]
 
 ENV_FILE = find_dotenv()
-if ENV_FILE:
-    load_dotenv(ENV_FILE)
+if ENV_FILE:    load_dotenv(ENV_FILE)
 
 WSGI_APPLICATION = "aquasens.wsgi.application"
 
