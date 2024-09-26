@@ -24,19 +24,30 @@ SECRET_KEY = "django-insecure-9bv3ge1%z6^itsr^q#$ssef0so*!ex&i#5*e*gg+-^ae9@tgn9
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
+
+
+
+ALLOWED_HOSTS = ['localhost'] 
+
+
+
+
+
 # Application definition
 
 INSTALLED_APPS = [
-    "django.contrib.admin",
-    "django.contrib.auth",
-    "django.contrib.contenttypes",
-    "django.contrib.sessions",
-    "django.contrib.messages",
-    "django.contrib.staticfiles",
-    "authentication",
-    "user",
-    "api",
-    "rest_framework",
+
+    'django.contrib.admin',
+    'django.contrib.auth',
+    'django.contrib.contenttypes',
+    'django.contrib.sessions',
+    'django.contrib.messages',
+    'django.contrib.staticfiles',
+    'authentication',
+    'user',
+    'api',
+    'rest_framework', 
+    'rest_framework.authtoken',
     "datamonitoring",
     "drainagesystem",
     "map",
@@ -44,6 +55,7 @@ INSTALLED_APPS = [
     "notification",
     "corsheaders",
     "django_extensions",
+    
 ]
 
 MIDDLEWARE = [
@@ -56,6 +68,7 @@ MIDDLEWARE = [
     "django.contrib.messages.middleware.MessageMiddleware",
     "django.middleware.clickjacking.XFrameOptionsMiddleware",
     "whitenoise.middleware.WhiteNoiseMiddleware",
+
 ]
 
 CORS_ORIGIN_ALLOW_ALL = True
@@ -93,8 +106,7 @@ TEMPLATES = [
 ]
 
 ENV_FILE = find_dotenv()
-if ENV_FILE:
-    load_dotenv(ENV_FILE)
+if ENV_FILE:    load_dotenv(ENV_FILE)
 
 WSGI_APPLICATION = "aquasens.wsgi.application"
 
