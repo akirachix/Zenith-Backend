@@ -27,7 +27,7 @@ DEBUG = True
 
 
 
-ALLOWED_HOSTS = [ '*']
+ALLOWED_HOSTS = ['localhost'] 
 
 
 
@@ -36,16 +36,18 @@ ALLOWED_HOSTS = [ '*']
 # Application definition
 
 INSTALLED_APPS = [
-    "django.contrib.admin",
-    "django.contrib.auth",
-    "django.contrib.contenttypes",
-    "django.contrib.sessions",
-    "django.contrib.messages",
-    "django.contrib.staticfiles",
-    "authentication",
-    "user",
-    "api",
-    "rest_framework",
+
+    'django.contrib.admin',
+    'django.contrib.auth',
+    'django.contrib.contenttypes',
+    'django.contrib.sessions',
+    'django.contrib.messages',
+    'django.contrib.staticfiles',
+    'authentication',
+    'user',
+    'api',
+    'rest_framework', 
+    'rest_framework.authtoken',
     "datamonitoring",
     "drainagesystem",
     "map",
@@ -66,6 +68,7 @@ MIDDLEWARE = [
     "django.contrib.messages.middleware.MessageMiddleware",
     "django.middleware.clickjacking.XFrameOptionsMiddleware",
     "whitenoise.middleware.WhiteNoiseMiddleware",
+
 ]
 
 CORS_ORIGIN_ALLOW_ALL = True

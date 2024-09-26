@@ -1,3 +1,4 @@
+
 from django.shortcuts import render
 import logging
 from rest_framework import status,generics
@@ -6,8 +7,10 @@ from rest_framework.views import APIView
 from rest_framework.permissions import IsAuthenticated, IsAdminUser
 from django.contrib.auth.hashers import make_password
 from user.models import User
-from .serializers import UserSerializer, RoleSerializer
+from rest_framework import generics,status
+from .serializers import UserSerializer,RoleSerializer
 from django.contrib.auth import authenticate
+from rest_framework.authtoken.models import Token
 from rest_framework import viewsets
 from datamonitoring.models import MonitoringData
 from .serializers import MonitoringDataSerializer
@@ -18,12 +21,18 @@ from sensor.models import Sensor
 from .serializers import SensorSerializer
 from notification.models import Notification
 from .serializers import NotificationSerializer
+from rest_framework import generics
+from rest_framework.response import Response
+from drainagesystem.models import DrainageSystem
+from .serializers import DrainageSystemSerializer
+
 
 
 logger = logging.getLogger(__name__)
 
 
 class UserListView(APIView):
+
 
     def get(self, request):
         users = User.objects.all()
@@ -32,21 +41,40 @@ class UserListView(APIView):
 
 
 class UserDetailView(APIView):
+    
     def get(self, request, id):
         try:
             user = User.objects.get(id=id)
         except User.DoesNotExist:
-            return Response(
-                {"detail": "User not found."}, status=status.HTTP_404_NOT_FOUND
-            )
+
+            return Response({"detail": "User not found."}, status=status.HTTP_404_NOT_FOUND)
+
+            
+
         serializer = UserSerializer(user)
         logger.info(f"User with ID {id} retrieved successfully.")
         return Response(serializer.data)
+
+
+
+
+
+
 
 class RegisterView(APIView):
     def post(self, request):
         serializer = UserSerializer(data=request.data)
         if serializer.is_valid():
+<
+
+            try:
+                user = serializer.save()
+                logger.info(f'User registered successfully: {user.email}')
+                return Response(UserSerializer(user).data, status=status.HTTP_201_CREATED)
+            except Exception as e:
+                logger.error(f'User registration failed: {str(e)}')
+                return Response({'error': str(e)}, status=status.HTTP_400_BAD_REQUEST)
+        logger.error(f'User registration failed: {serializer.errors}')
             serializer.validated_data['password'] = make_password(serializer.validated_data['password'])
             serializer.validated_data["password"] = make_password(
                 serializer.validated_data["password"]
@@ -57,6 +85,11 @@ class RegisterView(APIView):
             return Response(UserSerializer(user).data, status=status.HTTP_201_CREATED)
         logger.error(f"User registration failed: {serializer.errors}")
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
+
+
+
+
 
 
 class LoginView(APIView):
@@ -81,23 +114,34 @@ class LoginView(APIView):
 
         django_user = authenticate(username=email, password=password)
         if django_user:
-            logger.info(f"User logged in successfully: {email}")
-            return Response({}, status=status.HTTP_200_OK)
+            token, _ = Token.objects.get_or_create(user=django_user)
+            user_data = UserSerializer(user).data
+            response_data = {
+                'token': token.key,
+                'user': user_data
+            }
+            logger.info(f'User logged in successfully: {email}')
+            return Response({'message':'Login successful'})
+        
+        logger.error(f'Login failed for user: {email}')
+        return Response({'error': 'Invalid credentials'}, status=status.HTTP_401_UNAUTHORIZED)
 
-        logger.error(f"Login failed for user: {email}")
-        return Response(
-            {"error": "Invalid credentials"}, status=status.HTTP_401_UNAUTHORIZED
-        )
+      
+
 
 
 class RoleBasedView(APIView):
     permission_classes = [IsAuthenticated, IsAdminUser]
-
     def post(self, request):
         serializer = RoleSerializer(data=request.data)
         if serializer.is_valid():
+
+            user_id = serializer.validated_data['user_id']
+            new_role = serializer.validated_data['role']
+
             user_id = serializer.validated_data["user_id"]
             new_role = serializer.validated_data["role"]
+
 
             try:
                 user = User.objects.get(id=user_id)
@@ -114,7 +158,8 @@ class RoleBasedView(APIView):
                     {"detail": "User not found"}, status=status.HTTP_404_NOT_FOUND
                 )
         else:
-            logger.error(f"Invalid role update data: {serializer.errors}")
+
+            logger.error(f'Invalid role update data: {serializer.errors}')
             return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
 
@@ -123,29 +168,19 @@ class MonitoringDataViewSet(viewsets.ModelViewSet):
     serializer_class = MonitoringDataSerializer
 
     
-class DrainageSystemList(APIView):
-    def get(self, request):
-        drainagesystems = DrainageSystem.objects.all()  
-        serializer = DrainageSystemSerializer(drainagesystems, many=True)  
-        return Response(serializer.data)
 
 
-class DrainageSystemList(generics.ListCreateAPIView):
+class DrainageSystemListCreateView(generics.ListCreateAPIView):
     queryset = DrainageSystem.objects.all()
     serializer_class = DrainageSystemSerializer
 
-    def get(self, request, *args, **kwargs):
-        serializer = DrainageSystemSerializer(data=request.data)
-        if serializer.is_valid():
-            serializer.save()
-            return Response(serializer.data, status=status.HTTP_201_CREATED)
-        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+    def get(self, request):
+        drainagesystems = self.get_queryset()
+        serializer = self.get_serializer(drainagesystems, many=True)
+        return Response(serializer.data)
 
-
-
-class DrainageSystemDetail(APIView):
-    def post(self, request, *args, **kwargs):
-        serializer = DrainageSystemSerializer(data=request.data)
+    def post(self, request):
+        serializer = self.get_serializer(data=request.data)
         if serializer.is_valid():
             serializer.save()
             return Response(serializer.data, status=status.HTTP_201_CREATED)
@@ -193,4 +228,5 @@ class SensorDetailView(generics.RetrieveUpdateDestroyAPIView):
 class NotificationViewSet(viewsets.ModelViewSet):
     queryset = Notification.objects.all()
     serializer_class = NotificationSerializer
+
 
