@@ -47,7 +47,6 @@ INSTALLED_APPS = [
     'user',
     'api',
     'rest_framework', 
-    'rest_framework.authtoken',
     "datamonitoring",
     "drainagesystem",
     "map",
@@ -76,17 +75,7 @@ CORS_ORIGIN_ALLOW_ALL = True
 
 ROOT_URLCONF = "aquasens.urls"
 
-REST_FRAMEWORK = {
-    "DEFAULT_AUTHENTICATION_CLASSES": [
-        "rest_framework_simplejwt.authentication.JWTAuthentication",
-    ],
-}
-SIMPLE_JWT = {
-    "ACCESS_TOKEN_LIFETIME": timedelta(days=365 * 10),
-    "REFRESH_TOKEN_LIFETIME": timedelta(days=365 * 10),
-    "ROTATE_REFRESH_TOKENS": False,
-    "BLACKLIST_AFTER_ROTATION": True,
-}
+
 
 
 TEMPLATES = [
