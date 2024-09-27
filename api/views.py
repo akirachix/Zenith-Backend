@@ -8,7 +8,6 @@ from django.contrib.auth.hashers import make_password
 from user.models import User
 from .serializers import UserSerializer, RoleSerializer
 from django.contrib.auth import authenticate
-from rest_framework.authtoken.models import Token
 from rest_framework import viewsets
 from datamonitoring.models import MonitoringData
 from .serializers import MonitoringDataSerializer
@@ -85,10 +84,8 @@ class LoginView(APIView):
 
         django_user = authenticate(username=email, password=password)
         if django_user:
-            token, _ = Token.objects.get_or_create(user=django_user)
             user_data = UserSerializer(user).data
             response_data = {
-                'token': token.key,
                 'user': user_data
             }
             logger.info(f'User logged in successfully: {email}')
